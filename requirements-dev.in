@@ -1,0 +1,5 @@
+pre-commit>=3.7
+ruff>=0.4
+pyright>=1.1.361
+ipykernel>=6.29
+matplotlib>=3.8

@@ -19,19 +19,3 @@ requires-python = ">= 3.10"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
-
-[tool.rye]
-managed = true
-dev-dependencies = [
-    "pre-commit>=3.7",
-    "ruff>=0.4",
-    "pyright>=1.1.361",
-    "ipykernel>=6.29",
-    "matplotlib>=3.8",
-]
-
-[tool.hatch.metadata]
-allow-direct-references = true
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/ted"]
