@@ -33,6 +33,31 @@ class TED(Module):
 
         self.out_proj = nn.Linear(config.embed_dim, 1)
 
+        self.register_buffer("cached_boundary", None, persistent=False)
+        self.cached_boundary: Tensor | None = None
+
+    def freeze(self) -> None:
+        """Freezes the model, preventing any parameters from being updated.
+
+        This method is useful when the model is used for inference, as it prevents
+        unnecessary gradient computations. To further optimize the model for inference,
+        the boundary returned by the mean shift algorithm is cached to avoid recomputing
+        it for each sample.
+        """
+        self.requires_grad_(requires_grad=False)
+        _, boundary = self.ms(self.embeds.weight)
+        self.cached_boundary = boundary
+
+    def unfreeze(self) -> None:
+        """Unfreezes the model, allowing parameters to be updated.
+
+        This method is useful when the model is used for training, as it allows the
+        model to learn from the data. The boundary is also cleared to ensure that it is
+        recomputed for each sample.
+        """
+        self.requires_grad_(requires_grad=True)
+        self.cached_boundary = None
+
     def __call__(self, x: Tensor) -> Tensor:
         """Computes the energy of each sample.
 
@@ -44,7 +69,10 @@ class TED(Module):
         Returns:
             The energy of each individual. This is a 1D tensor of shape (B,).
         """
-        _, boundary = self.ms(self.embeds.weight)
+        if self.cached_boundary is not None:
+            boundary = self.cached_boundary
+        else:
+            _, boundary = self.ms(self.embeds.weight)
 
         x = self.gene_proj(x.unsqueeze(-1))  # (B, N, D)
         embeds = self.embeds.weight.expand_as(x)  # (B, N, D)

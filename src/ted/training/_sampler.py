@@ -41,7 +41,7 @@ class Sampler:
         """
         is_training = model.training
         model.eval()
-        model.requires_grad_(requires_grad=False)
+        model.freeze()
         gradient_enabled = torch.is_grad_enabled()
         torch.set_grad_enabled(True)
 
@@ -49,7 +49,7 @@ class Sampler:
         solutions = self._langevin_dynamics(model, solutions)
 
         torch.set_grad_enabled(gradient_enabled)
-        model.requires_grad_(requires_grad=True)
+        model.unfreeze()
         model.train(is_training)
 
         return solutions
