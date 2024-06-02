@@ -26,12 +26,24 @@ repos:
   hooks:
   - id: shellcheck
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.4.3
+  rev: v0.4.7
   hooks:
   - id: ruff
     args: [--fix]
   - id: ruff-format
 - repo: https://github.com/RobertCraigie/pyright-python
-  rev: v1.1.361
+  rev: v1.1.365
   hooks:
   - id: pyright
+- repo: https://github.com/astral-sh/uv-pre-commit
+  # uv version.
+  rev: 0.2.5
+  hooks:
+    - id: pip-compile
+      name: pip-compile pyproject.toml
+      args: [pyproject.toml, -o, requirements.lock]
+      files: pyproject.toml
+    - id: pip-compile
+      name: pip-compile requirements-dev.in
+      args: [requirements-dev.in, -o, requirements-dev.lock]
+      files: requirements-dev.in
