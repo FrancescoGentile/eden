@@ -1,8 +1,8 @@
 <div align="center">
 
-# TED
+# EDEN
 
-<h4>Topology-based Estimation of Distribution</h4>
+<h4>Estimation of Distribution using ENergy-based models</h4>
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
@@ -16,17 +16,17 @@
 
 ## Installation
 
-We currently do not provide a PyPI package for TED, but you can install it directly from GitHub using `pip`:
+We currently do not provide a PyPI package for `eden`, but you can install it directly from GitHub using `pip`:
 
 ```bash
-pip install "ted @ git+https://github.com/FrancescoGentile/TED.git"
+pip install "eden @ git+https://github.com/FrancescoGentile/eden.git"
 ```
 
 If you instead need to work on the source code, you can clone the repository and install the package in editable mode:
 
 ```bash
-git clone https://github.com/FrancescoGentile/TED.git
-cd TED
+git clone https://github.com/FrancescoGentile/eden.git
+cd eden
 
 # make sure that the active environment has python>=3.10
 pip install -e .
@@ -37,10 +37,10 @@ pip install -r requirements-dev.lock
 
 ## Usage
 
-At the moment, the command-line interface provides only the `train` command, which allows you to train a TED model using the provided configuration file. The configuration file is a YAML file that contains the configuration for the model architetcure, the parameters of the problem on which the model will be trained and the training parameters (e.g., the optimizer, the learning rate scheduler, the number of iterations, etc.). You can find an example configuration file in the `configs` directory.
+At the moment, the command-line interface provides only the `train` command, which allows you to train a `eden` model using the provided configuration file. The configuration file is a YAML file that contains the configuration for the model architetcure, the parameters of the problem on which the model will be trained and the training parameters (e.g., the optimizer, the learning rate scheduler, the number of iterations, etc.). You can find an example configuration file in the `configs` directory.
 
-To train a TED model, you can use the following command:
+To train a `eden` model, you can use the following command:
 
 ```bash
-ted train /path/to/config.yaml
+eden train /path/to/config.yaml
 ```

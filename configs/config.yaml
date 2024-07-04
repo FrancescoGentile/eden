@@ -1,10 +1,10 @@
-# Copyright 2024 TED Team.
+# Copyright 2024 EDEN Team.
 # SPDX-License-Identifier: Apache-2.0
 
 seed: 42
 
 model:
-  num_nodes: 10
+  _target_: eden.models.teed.Model
 
 optimizer:
   _target_: torch.optim.AdamW
@@ -12,24 +12,33 @@ optimizer:
   weight_decay: 0.01
 
 problem:
-  _target_: ted.problems.SphereFunction
+  _target_: eden.problems.SphereFunction
+  num_variables: 10
 
-loggers:
-- _target_: ted.loggers.FileLogger
-  log_every_n_steps: 10
-- _target_: ted.loggers.WandbLogger
-  project: "ted"
-  log_every_n_steps: 10
-- _target_: ted.loggers.ProgressBarLogger
+# loggers:
+# - _target_: ted.loggers.FileLogger
+#   log_every_n_steps: 10
+# - _target_: ted.loggers.WandbLogger
+#   project: "ted"
+#   log_every_n_steps: 10
+# - _target_: ted.loggers.ProgressBarLogger
 
 engine:
-  genome_size: 10
-  batch_size: 64
-  buffer_size: 1000
-  sampling_old_ratio: 0.8
-  sampling_steps: 50
-  sampling_noise_std: 0.01
-  sampling_step_size: 0.01
-  gradient_clip_norm: 1.0
-  max_evaluations: 12800
+  sampler:
+    num_samples: 1
+    old_ratio: 0.0
+    num_steps: 50
+    noise_std: 0.01
+    step_size: 0.01
+    gradient_clip_norm: 0.03
+  buffer:
+    min_size: 1000
+    max_size: 5000
+    sampling_strategy: "uniform"
+    replacement_strategy: "fifo"
+  update:
+    num_steps: 1
+    batch_size: 16
+    gradient_clip_norm: 1.0
+  max_num_evaluations: 10000
   device: "cuda:0"

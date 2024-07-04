@@ -10,6 +10,7 @@ preview = true
 fixable = ["ALL"]
 ignore = [
     "ANN101",
+    "ANN102",
     "ANN401",
     "COM812",
     "ERA001",
